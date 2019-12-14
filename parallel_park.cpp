@@ -127,7 +127,7 @@ int main(int argc, char **argv){
 			// control.angle = (float) (0.9);
 			// control.throttle = (float) (0.65);
 			// pub.publish(control);
-			rate.sleep();
+			ros::Duration(2.0).sleep();
 
 			// Find out if tag 3 ready
 			if(tag3Ready){
