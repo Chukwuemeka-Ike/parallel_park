@@ -102,19 +102,19 @@ int main(int argc, char **argv){
 		}
 
 		// Holders for each of the tags' frame translations
-		// float x1trans= (transformStamped1.transform.translation.x)*100;
-		// float y1trans = (transformStamped1.transform.translation.y)*100;
-		// float z1trans = (transformStamped1.transform.translation.z)*100;
-		// float x2trans = (transformStamped2.transform.translation.x)*100;
-		// float y2trans = (transformStamped2.transform.translation.y)*100;
-		// float z2trans = (transformStamped2.transform.translation.z)*100;
-		float x3trans = (transformStamped3.transform.translation.x)*100;
-		float y3trans = (transformStamped3.transform.translation.y)*100;
-		float z3trans = (transformStamped3.transform.translation.z)*100;
+		// float x1trans= (transformStamped1.transform.translation.x)*1000;
+		// float y1trans = (transformStamped1.transform.translation.y)*1000;
+		// float z1trans = (transformStamped1.transform.translation.z)*1000;
+		// float x2trans = (transformStamped2.transform.translation.x)*1000;
+		// float y2trans = (transformStamped2.transform.translation.y)*1000;
+		// float z2trans = (transformStamped2.transform.translation.z)*1000;
+		float x3trans = (transformStamped3.transform.translation.x)*1000;
+		float y3trans = (transformStamped3.transform.translation.y)*1000;
+		float z3trans = (transformStamped3.transform.translation.z)*1000;
 		ROS_INFO_STREAM("xTrans:" << x3trans);
 		ROS_INFO_STREAM("yTrans:" << y3trans);
 		ROS_INFO_STREAM("zTrans:" << z3trans);
-		
+
 		// Create the single Servo Control Message that will be published
 		parallel_park::ServoCtrlMsg control;
 
