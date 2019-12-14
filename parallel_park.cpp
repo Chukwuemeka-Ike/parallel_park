@@ -129,7 +129,7 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<-30 && x3trans>-38) && (y3trans<-10.4 && y3trans>-12) && (z3trans<69 && z3trans>56)){
+				if((x3trans<-28 && x3trans>-38) && (y3trans<-10 && y3trans>-15) && (z3trans<69 && z3trans>56)){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
