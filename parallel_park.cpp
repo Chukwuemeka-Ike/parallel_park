@@ -78,16 +78,16 @@ int main(int argc, char **argv){
 		geometry_msgs::TransformStamped transformStamped3;
 
 		// Try to get each transform, and warn if doesn't work each time
-		try{
-			transformStamped1 = tfBuffer1.lookupTransform("cv_camera", "tag_1", ros::Time(0));
-			transformStamped2 = tfBuffer2.lookupTransform("cv_camera", "tag_2", ros::Time(0));
-			//transformStamped3 = tfBuffer3.lookupTransform("cv_camera", "tag_3", ros::Time(0));
-		}
-		catch(tf2::TransformException &ex){
-			ROS_WARN("%s", ex.what());
-			ros::Duration(1.0).sleep();
-			continue;
-		}
+		// try{
+		// 	transformStamped1 = tfBuffer1.lookupTransform("cv_camera", "tag_1", ros::Time(0));
+		// 	transformStamped2 = tfBuffer2.lookupTransform("cv_camera", "tag_2", ros::Time(0));
+		// 	//transformStamped3 = tfBuffer3.lookupTransform("cv_camera", "tag_3", ros::Time(0));
+		// }
+		// catch(tf2::TransformException &ex){
+		// 	ROS_WARN("%s", ex.what());
+		// 	ros::Duration(1.0).sleep();
+		// 	continue;
+		// }
 		int tag3Ready = 1;
 		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
 		try{
@@ -102,16 +102,19 @@ int main(int argc, char **argv){
 		}
 
 		// Holders for each of the tags' frame translations
-		float x1trans= (transformStamped1.transform.translation.x)*100;
-		float y1trans = (transformStamped1.transform.translation.y)*100;
-		float z1trans = (transformStamped1.transform.translation.z)*100;
-		float x2trans = (transformStamped2.transform.translation.x)*100;
-		float y2trans = (transformStamped2.transform.translation.y)*100;
-		float z2trans = (transformStamped2.transform.translation.z)*100;
+		// float x1trans= (transformStamped1.transform.translation.x)*100;
+		// float y1trans = (transformStamped1.transform.translation.y)*100;
+		// float z1trans = (transformStamped1.transform.translation.z)*100;
+		// float x2trans = (transformStamped2.transform.translation.x)*100;
+		// float y2trans = (transformStamped2.transform.translation.y)*100;
+		// float z2trans = (transformStamped2.transform.translation.z)*100;
 		float x3trans = (transformStamped3.transform.translation.x)*100;
 		float y3trans = (transformStamped3.transform.translation.y)*100;
 		float z3trans = (transformStamped3.transform.translation.z)*100;
-
+		ROS_INFO_STREAM("xTrans:" << x3trans);
+		ROS_INFO_STREAM("yTrans:" << y3trans);
+		ROS_INFO_STREAM("zTrans:" << z3trans);
+		
 		// Create the single Servo Control Message that will be published
 		parallel_park::ServoCtrlMsg control;
 
