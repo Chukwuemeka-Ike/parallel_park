@@ -132,20 +132,20 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<47 && x3trans>36) && (z3trans<70 && z3trans>56)){
+				if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56)){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
 					control.throttle = (float) (-0.68);
 					pub.publish(control);
 					ROS_INFO_STREAM("Right turn");
-					ros::Duration(0.95).sleep();
+					ros::Duration(1.1).sleep();
 
 					control.angle = (float) (0.9);
 					control.throttle = (float) (-0.68);
 					pub.publish(control);
 					ROS_INFO_STREAM("Left turn");
-					ros::Duration(0.45).sleep();
+					ros::Duration(0.6).sleep();
 
 					control.angle = (float) (-0.9);
 					control.throttle = (float) (0.68);
