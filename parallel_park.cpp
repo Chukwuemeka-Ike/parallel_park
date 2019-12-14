@@ -112,7 +112,7 @@ int main(int argc, char **argv){
 		float y3trans = (float)(transformStamped3.transform.translation.y)*(float)1000;
 		float z3trans = (float)(transformStamped3.transform.translation.z)*(float)1000;
 		ROS_INFO_STREAM("xTrans:" << x3trans);
-		ROS_INFO_STREAM("yTrans:" << y3trans);
+		ROS_INFO_STREAM("yTrans:" << y3trans << "size: " << sizeof(y3trans));
 		ROS_INFO_STREAM("zTrans:" << z3trans);
 
 		// Create the single Servo Control Message that will be published
@@ -132,7 +132,7 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<-28 && x3trans>-38) && (y3trans<1. && y3trans>1) && (z3trans<69 && z3trans>56)){
+				if((x3trans<44 && x3trans>-38) && (y3trans<1. && y3trans>1) && (z3trans<70 && z3trans>56)){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
