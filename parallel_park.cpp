@@ -71,50 +71,50 @@ int main(int argc, char **argv){
 	ros::Rate rate(2.0);
 
 	// Perform the following as long as the node is running
-	// while(ros::ok()){
-	// 	// Objects to hold the Transforms
-	// 	geometry_msgs::TransformStamped transformStamped1;
-	// 	geometry_msgs::TransformStamped transformStamped2;
-	// 	geometry_msgs::TransformStamped transformStamped3;
-	//
-	// 	// Try to get each transform, and warn if doesn't work each time
-	// 	try{
-	// 		transformStamped1 = tfBuffer1.lookupTransform("cv_camera", "tag_1", ros::Time(0));
-	// 		transformStamped2 = tfBuffer2.lookupTransform("cv_camera", "tag_2", ros::Time(0));
-	// 		//transformStamped3 = tfBuffer3.lookupTransform("cv_camera", "tag_3", ros::Time(0));
-	// 	}
-	// 	catch(tf2::TransformException &ex){
-	// 		ROS_WARN("%s", ex.what());
-	// 		ros::Duration(1.0).sleep();
-	// 		continue;
-	// 	}
-		// int tag3Ready = 1;
-		// ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
-		// try{
-		// 	transformStamped3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
-		// 	tag3Ready = 1;
-		// }
-		// catch(tf2::TransformException &ex){
-		// 	ROS_INFO_STREAM("tag_3 not ready");
-		// 	ros::Duration(1.0).sleep();
-		// 	tag3Ready = 0;
-				// continue;
-		// }
-	//
-	// 	// Holders for each of the tags' frame translations
-	// 	float x1 = (transformStamped1.transform.translation.x)*100;
-	// 	float y1 = (transformStamped1.transform.translation.y)*100;
-	// 	float z1 = (transformStamped1.transform.translation.z)*100;
-	// 	float x2 = (transformStamped2.transform.translation.x)*100;
-	// 	float y2 = (transformStamped2.transform.translation.y)*100;
-	// 	float z2 = (transformStamped2.transform.translation.z)*100;
-	// 	float x3 = (transformStamped3.transform.translation.x)*100;
-	// 	float y3 = (transformStamped3.transform.translation.y)*100;
+	while(ros::ok()){
+		// Objects to hold the Transforms
+		geometry_msgs::TransformStamped transformStamped1;
+		geometry_msgs::TransformStamped transformStamped2;
+		geometry_msgs::TransformStamped transformStamped3;
+
+		// Try to get each transform, and warn if doesn't work each time
+		try{
+			transformStamped1 = tfBuffer1.lookupTransform("cv_camera", "tag_1", ros::Time(0));
+			transformStamped2 = tfBuffer2.lookupTransform("cv_camera", "tag_2", ros::Time(0));
+			//transformStamped3 = tfBuffer3.lookupTransform("cv_camera", "tag_3", ros::Time(0));
+		}
+		catch(tf2::TransformException &ex){
+			ROS_WARN("%s", ex.what());
+			ros::Duration(1.0).sleep();
+			continue;
+		}
+		int tag3Ready = 1;
+		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
+		try{
+			transformStamped3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
+			tag3Ready = 1;
+		}
+		catch(tf2::TransformException &ex){
+			ROS_INFO_STREAM("tag_3 not ready");
+			ros::Duration(1.0).sleep();
+			tag3Ready = 0;
+				continue;
+		}
+
+		// Holders for each of the tags' frame translations
+		float x1trans= (transformStamped1.transform.translation.x)*100;
+		float y1trans = (transformStamped1.transform.translation.y)*100;
+		float z1trans = (transformStamped1.transform.translation.z)*100;
+		float x2trans = (transformStamped2.transform.translation.x)*100;
+		float y2trans = (transformStamped2.transform.translation.y)*100;
+		float z2trans = (transformStamped2.transform.translation.z)*100;
+		float x3trans = (transformStamped3.transform.translation.x)*100;
+		float y3trans = (transformStamped3.transform.translation.y)*100;
 
 		// Create the single Servo Control Message that will be published
 		parallel_park::ServoCtrlMsg control;
 
-		// float xDistance = computeDistance(x1,y1,z1,x2,y2,z2);
+		// float xDistance = computeDistance(x1trans,y1trans,z1trans,x2trans,y2trans,z2trans);
 		// float prevDistance = 0;
 		//
 		// // ROS_INFO_STREAM("Distance between tag 1 and tag 2: " << xDistance);
@@ -128,7 +128,7 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3<-29.6 && x3>-32.3) && (y3<-11.4 && y3>-11.8) && (z3<0.0608 && z3>0.06)){
+				if((x3trans<-29.6 && x3trans>-32.3) && (y3trans<-11.4 && y3trans>-11.8) && (z3trans<0.0608 && z3trans>0.06)){
 					ROS_INFO_STREAM("Starting to park")
 
 					control.angle = (float) (-0.9);
@@ -160,10 +160,10 @@ int main(int argc, char **argv){
 
 
       /*
-      float z3 = (transformStamped3.transform.translation.z)*100;
+      float z3trans = (transformStamped3.transform.translation.z)*100;
       ROS_INFO_STREAM("tag3Ready 2nd time:" << tag3Ready);
-      ROS_INFO_STREAM("z3:" << z3);
-      if(tag3Ready == 1 && z3 > 30)
+      ROS_INFO_STREAM("z3trans:" << z3trans);
+      if(tag3Ready == 1 && z3trans > 30)
       {
          ROS_INFO_STREAM("Here We Go");
          control.throttle = (float) (0.65);
