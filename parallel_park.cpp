@@ -89,7 +89,6 @@ int main(int argc, char **argv){
 		// 	continue;
 		// }
 		int tag3Ready = 1;
-		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
 		try{
 			transformStamped3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
 			tag3Ready = 1;
@@ -98,8 +97,9 @@ int main(int argc, char **argv){
 			ROS_INFO_STREAM("tag_3 not ready");
 			ros::Duration(1.0).sleep();
 			tag3Ready = 0;
-				continue;
+			continue;
 		}
+		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
 
 		// Holders for each of the tags' frame translations
 		// float x1trans= (transformStamped1.transform.translation.x)*1000;
@@ -112,7 +112,7 @@ int main(int argc, char **argv){
 		float y3trans = (float)(transformStamped3.transform.translation.y)*(float)1000;
 		float z3trans = (float)(transformStamped3.transform.translation.z)*(float)1000;
 		ROS_INFO_STREAM("xTrans:" << x3trans);
-		ROS_INFO_STREAM("yTrans:" << y3trans << "size: " << sizeof(y3trans));
+		// ROS_INFO_STREAM("yTrans:" << y3trans << "size: " << sizeof(y3trans));
 		ROS_INFO_STREAM("zTrans:" << z3trans);
 
 		// Create the single Servo Control Message that will be published
@@ -132,7 +132,7 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<44 && x3trans>-38) && (y3trans<1. && y3trans>1) && (z3trans<70 && z3trans>56)){
+				if((x3trans<44 && x3trans>36) && (z3trans<70 && z3trans>56)){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
