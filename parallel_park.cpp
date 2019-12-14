@@ -69,6 +69,7 @@ int main(int argc, char **argv){
 
 	// Set the sleep rate to 2s
 	ros::Rate rate(2.0);
+	long prevSecs3 = 0;
 
 	// Perform the following as long as the node is running
 	while(ros::ok()){
@@ -111,6 +112,8 @@ int main(int argc, char **argv){
 		float x3trans = (float)(transformStamped3.transform.translation.x)*(float)1000;
 		float y3trans = (float)(transformStamped3.transform.translation.y)*(float)1000;
 		float z3trans = (float)(transformStamped3.transform.translation.z)*(float)1000;
+		long tfSecs3 = transformStamped3.header.stamp.sec;
+
 		ROS_INFO_STREAM("xTrans:" << x3trans);
 		// ROS_INFO_STREAM("yTrans:" << y3trans << "size: " << sizeof(y3trans));
 		ROS_INFO_STREAM("zTrans:" << z3trans);
@@ -132,7 +135,7 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56)){
+				if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56) && (prevSecs3 != tfSecs3)){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
@@ -157,6 +160,8 @@ int main(int argc, char **argv){
 					control.throttle = (float) (0);
 					ROS_INFO_STREAM("Rest");
 					pub.publish(control);
+
+					prevSecs3 = tfSecs3;
 				}
 			}
 			// prevDistance = xDistance;
