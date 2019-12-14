@@ -108,9 +108,9 @@ int main(int argc, char **argv){
 		// float x2trans = (transformStamped2.transform.translation.x)*1000;
 		// float y2trans = (transformStamped2.transform.translation.y)*1000;
 		// float z2trans = (transformStamped2.transform.translation.z)*1000;
-		float x3trans = (transformStamped3.transform.translation.x)*1000;
-		float y3trans = (transformStamped3.transform.translation.y)*1000;
-		float z3trans = (transformStamped3.transform.translation.z)*1000;
+		float x3trans = (float)(transformStamped3.transform.translation.x)*(float)1000;
+		float y3trans = (float)(transformStamped3.transform.translation.y)*(float)1000;
+		float z3trans = (float)(transformStamped3.transform.translation.z)*(float)1000;
 		ROS_INFO_STREAM("xTrans:" << x3trans);
 		ROS_INFO_STREAM("yTrans:" << y3trans);
 		ROS_INFO_STREAM("zTrans:" << z3trans);
@@ -132,7 +132,7 @@ int main(int argc, char **argv){
 			// Find out if tag 3 ready
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<-28 && x3trans>-38) && (y3trans<-10 && y3trans>-15) && (z3trans<69 && z3trans>56)){
+				if((x3trans<-28 && x3trans>-38) && (y3trans<1. && y3trans>1) && (z3trans<69 && z3trans>56)){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
