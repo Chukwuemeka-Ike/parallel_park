@@ -110,6 +110,7 @@ int main(int argc, char **argv){
 		float z2trans = (transformStamped2.transform.translation.z)*100;
 		float x3trans = (transformStamped3.transform.translation.x)*100;
 		float y3trans = (transformStamped3.transform.translation.y)*100;
+		float z3trans = (transformStamped3.transform.translation.z)*100;
 
 		// Create the single Servo Control Message that will be published
 		parallel_park::ServoCtrlMsg control;
@@ -129,7 +130,7 @@ int main(int argc, char **argv){
 			if(tag3Ready){
 				// Test if tag 3 is within an acceptable range indicating we can park
 				if((x3trans<-29.6 && x3trans>-32.3) && (y3trans<-11.4 && y3trans>-11.8) && (z3trans<0.0608 && z3trans>0.06)){
-					ROS_INFO_STREAM("Starting to park")
+					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
 					control.throttle = (float) (-0.65);
@@ -160,7 +161,7 @@ int main(int argc, char **argv){
 
 
       /*
-      float z3trans = (transformStamped3.transform.translation.z)*100;
+
       ROS_INFO_STREAM("tag3Ready 2nd time:" << tag3Ready);
       ROS_INFO_STREAM("z3trans:" << z3trans);
       if(tag3Ready == 1 && z3trans > 30)
@@ -220,5 +221,5 @@ int main(int argc, char **argv){
 
 		  }
 */
-	// }
+ 	}
 }
