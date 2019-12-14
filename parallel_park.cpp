@@ -67,8 +67,8 @@ int main(int argc, char **argv){
 	tf2_ros::TransformListener tfListener2(tfBuffer2);
   tf2_ros::TransformListener tfListener3(tfBuffer3);
 
-	// Set the sleep rate to 5s
-	ros::Rate rate(3.0);
+	// Set the sleep rate to 2s
+	ros::Rate rate(2.0);
 
 	// Perform the following as long as the node is running
 	// while(ros::ok()){
@@ -112,25 +112,25 @@ int main(int argc, char **argv){
 			// control.angle = (float) (0.9);
 			// control.throttle = (float) (0.65);
 			// pub.publish(control);
-			ros::Duration(3.0).sleep();
+			rate.sleep();
 
 			control.angle = (float) (-0.9);
 			control.throttle = (float) (-0.6);
 			pub.publish(control);
 			ROS_INFO_STREAM("Right turn");
-			ros::Duration(1.0).sleep();
+			ros::Duration(2.0).sleep();
 
 			control.angle = (float) (0.9);
 			control.throttle = (float) (-0.6);
 			pub.publish(control);
 			ROS_INFO_STREAM("Left turn");
-			ros::Duration(1.0).sleep();
+			ros::Duration(2.0).sleep();
 
 			control.angle = (float) (0);
 			control.throttle = (float) (0.5);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correct");
-			ros::Duration(0.5).sleep();
+			ros::Duration(1).sleep();
 
 			control.angle = (float) (0);
 			control.throttle = (float) (0);
