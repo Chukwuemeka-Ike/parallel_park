@@ -118,15 +118,15 @@ int main(int argc, char **argv){
 			control.throttle = (float) (-0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Right turn");
-			ros::Duration(1).sleep();
+			ros::Duration(2).sleep();
 
 			control.angle = (float) (0.9);
 			control.throttle = (float) (-0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Left turn");
-			ros::Duration(1).sleep();
+			ros::Duration(0.75).sleep();
 
-			control.angle = (float) (0);
+			control.angle = (float) (-0.9);
 			control.throttle = (float) (0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correct");
