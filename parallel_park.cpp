@@ -33,7 +33,6 @@ void frame3_Callback(const geometry_msgs::TransformStampedConstPtr& framePtr)
   tf2_ros::Buffer tfBuffer3;
   tf2_ros::TransformListener tfListener3(tfBuffer3);
 
-
   try{
     transform3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
   }
@@ -42,7 +41,6 @@ void frame3_Callback(const geometry_msgs::TransformStampedConstPtr& framePtr)
     ros::Duration(1.0).sleep();
   }
 }
-
 
 //************************************************************
 // Main function
@@ -73,7 +71,7 @@ int main(int argc, char **argv){
 	ros::Rate rate(3.0);
 
 	// Perform the following as long as the node is running
-	/*while(ros::ok()){*/
+	while(ros::ok()){
 		// Objects to hold the Transforms
 		geometry_msgs::TransformStamped transformStamped1;
 		geometry_msgs::TransformStamped transformStamped2;
@@ -98,9 +96,8 @@ int main(int argc, char **argv){
 		float x2 = transformStamped2.transform.translation.x;
 		float y2 = transformStamped2.transform.translation.y;
 		float z2 = transformStamped2.transform.translation.z;
-		//float x3 = transformStamped3.transform.translation.x;
-//		float y3 = transformStamped3.transform.translation.y;
-
+		float x3 = transformStamped3.transform.translation.x;
+		float y3 = transformStamped3.transform.translation.y;
 
 		// Create the single Servo Control Message that will be published
     // after computations
@@ -109,7 +106,9 @@ int main(int argc, char **argv){
 		float xDistance = computeDistance(x1,y1,z1,x2,y2,z2);
 		float prevDistance = 0;
 
-
+		// ROS_INFO_STREAM("Distance between tag 1 and tag 2: " << xDistance);
+		// If xDistance > 60cm, continue on to the next part
+		if(xDistance > 60){
 			// control.angle = (float) (0.9);
 			// control.throttle = (float) (0.65);
 			// pub.publish(control);
@@ -135,17 +134,9 @@ int main(int argc, char **argv){
 			pub.publish(control);
 
 			prevDistance = xDistance;
+		}
 
 
-    //ROS_INFO_STREAM("x: " << xDistance);
-    // If xDistance > 40cm, continue on to the next part
-    /*if(xDistance > 40){
-      for(int i = 0; i<2; i++){
-          control.angle = (float) (0.8);
-          control.throttle = (float) (0.65);
-          ROS_INFO_STREAM("Angle: " << control.angle << "Throttle: " << control.throttle);
-          ros::Duration(1.0).sleep();
-      }*/
       /*int tag3Ready = 1;
       ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
       try{
@@ -216,7 +207,6 @@ int main(int argc, char **argv){
 		    float P = (Xs,Ys)(Xt,Yt)+(Xt,Yt)(Xf,Yf)+(Xf,Yf)(Xg,Yg)
 
 		  }
-
+*/
 	}
-	*/
 }
