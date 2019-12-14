@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>pose_estimate</name>
+  <name>parallel_park</name>
   <version>0.0.0</version>
-  <description>The pose_estimate package</description>
+  <description>The parallel parking package</description>
 
   <maintainer email="chukwuemeka.o.ike@gmail.com">Chukwuemeka Ike</maintainer>
 
