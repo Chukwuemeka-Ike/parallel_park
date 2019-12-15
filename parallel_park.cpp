@@ -141,7 +141,7 @@ int main(int argc, char **argv){
 
 			// Go from looking at T1 and T2 to being adjacent to T1
 			control.angle = (float) (0.9);
-			control.throttle = (float) (0.8);
+			control.throttle = (float) (0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Let us begin");
 			ros::Duration(2).sleep();
