@@ -140,16 +140,16 @@ int main(int argc, char **argv){
 		// if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
 			// Go from looking at T1 and T2 to being adjacent to T1
 			control.angle = (float) (0.9);
-			control.throttle = (float) (0.6);
+			control.throttle = (float) (0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Heading to tag 1 adjacent");
-			ros::Duration(2).sleep();
+			ros::Duration(1.5).sleep();
 
 			control.angle = (float) (0);
-			control.throttle = (float) (-0.6);
+			control.throttle = (float) (-0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correcting");
-			ros::Duration(0.3).sleep();
+			ros::Duration(0.5).sleep();
 
 			control.angle = (float) (0.0);
 			control.throttle = (float) (0.0);
@@ -157,45 +157,45 @@ int main(int argc, char **argv){
 			ROS_INFO_STREAM("Arrived");
 
 			// Find out if tag 3 ready
-			if(tag3Ready && (prevSecs3 != tfSecs3)){
-				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56)){
-					ROS_INFO_STREAM("Starting to park");
-
-					control.angle = (float) (-0.9);
-					control.throttle = (float) (-0.65);
-					pub.publish(control);
-					ROS_INFO_STREAM("Right turn");
-					ros::Duration(1.4).sleep();
-
-					control.angle = (float) (0.9);
-					control.throttle = (float) (-0.65);
-					pub.publish(control);
-					ROS_INFO_STREAM("Left turn");
-					ros::Duration(0.85).sleep();
-
-					control.angle = (float) (-0.9);
-					control.throttle = (float) (0.65);
-					pub.publish(control);
-					ROS_INFO_STREAM("Correct");
-					ros::Duration(0.45).sleep();
-
-					control.angle = (float) (0);
-					control.throttle = (float) (0);
-					ROS_INFO_STREAM("Rest");
-					pub.publish(control);
-
-					prevSecs3 = tfSecs3;
-				}
-				else{
-					control.angle = (float) (0);
-					control.throttle = (float) (0);
-					ROS_INFO_STREAM("Rest");
-					pub.publish(control);
-
-					prevSecs3 = tfSecs3;
-				}
-			}
+			// if(tag3Ready && (prevSecs3 != tfSecs3)){
+			// 	// Test if tag 3 is within an acceptable range indicating we can park
+			// 	if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56)){
+			// 		ROS_INFO_STREAM("Starting to park");
+			//
+			// 		control.angle = (float) (-0.9);
+			// 		control.throttle = (float) (-0.65);
+			// 		pub.publish(control);
+			// 		ROS_INFO_STREAM("Right turn");
+			// 		ros::Duration(1.4).sleep();
+			//
+			// 		control.angle = (float) (0.9);
+			// 		control.throttle = (float) (-0.65);
+			// 		pub.publish(control);
+			// 		ROS_INFO_STREAM("Left turn");
+			// 		ros::Duration(0.85).sleep();
+			//
+			// 		control.angle = (float) (-0.9);
+			// 		control.throttle = (float) (0.65);
+			// 		pub.publish(control);
+			// 		ROS_INFO_STREAM("Correct");
+			// 		ros::Duration(0.45).sleep();
+			//
+			// 		control.angle = (float) (0);
+			// 		control.throttle = (float) (0);
+			// 		ROS_INFO_STREAM("Rest");
+			// 		pub.publish(control);
+			//
+			// 		prevSecs3 = tfSecs3;
+			// 	}
+			// 	else{
+			// 		control.angle = (float) (0);
+			// 		control.throttle = (float) (0);
+			// 		ROS_INFO_STREAM("Rest");
+			// 		pub.publish(control);
+			//
+			// 		prevSecs3 = tfSecs3;
+			// 	}
+			// }
 		// 	prevSecs1 = tfSecs1;
 		// 	prevSecs2 = tfSecs2;
 		// }
