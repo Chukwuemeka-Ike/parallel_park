@@ -61,7 +61,7 @@ int main(int argc, char **argv){
 
 	// Create a publisher object to publish to the /manual_drive topic to
 	// control the servo
-	ros::Publisher pub = nh.advertise<parallel_park::ServoCtrlMsg>("/manual_drive", 10);
+	ros::Publisher pub = nh.advertise<parallel_park::ServoCtrlMsg>("/manual_drive", 100);
 
 	// Create buffer objects and transformListener objects to deal with
 	// getting the transforms
