@@ -143,9 +143,9 @@ int main(int argc, char **argv){
 			control.throttle = (float) (0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Heading to tag 1 adjacent");
-			ros::Duration(1.55).sleep();
+			ros::Duration(1.65).sleep();
 
-			control.angle = (float) (-0.1);
+			control.angle = (float) (-0.2);
 			control.throttle = (float) (-0.8);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correcting");
