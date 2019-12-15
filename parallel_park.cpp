@@ -143,13 +143,13 @@ int main(int argc, char **argv){
 			control.throttle = (float) (0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Heading to tag 1 adjacent");
-			ros::Duration(1.5).sleep();
+			ros::Duration(1.75).sleep();
 
 			control.angle = (float) (0);
 			control.throttle = (float) (-0.65);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correcting");
-			ros::Duration(0.5).sleep();
+			ros::Duration(0.8).sleep();
 
 			control.angle = (float) (0.0);
 			control.throttle = (float) (0.0);
