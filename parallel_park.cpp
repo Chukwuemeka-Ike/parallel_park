@@ -137,7 +137,7 @@ int main(int argc, char **argv){
 		ros::Duration(2.0).sleep();
 
 		// If xDistance > 60cm, continue on to the next part
-		if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
+		// if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
 			// Go from looking at T1 and T2 to being adjacent to T1
 			control.angle = (float) (0.9);
 			control.throttle = (float) (0.6);
@@ -196,8 +196,8 @@ int main(int argc, char **argv){
 					prevSecs3 = tfSecs3;
 				}
 			}
-			prevSecs1 = tfSecs1;
-			prevSecs2 = tfSecs2;
-		}
+		// 	prevSecs1 = tfSecs1;
+		// 	prevSecs2 = tfSecs2;
+		// }
  	} // end while
 } // end main
