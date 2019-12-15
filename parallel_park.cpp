@@ -11,6 +11,7 @@
 
 bool canPark;
 
+
 //************************************************************
 // Function to Compute the Distance Between Two Frames (Essentially 2 Tags)
 float computeDistance(float xFirst, float yFirst, float zFirst, float xSecond, float ySecond, float zSecond){
@@ -42,6 +43,10 @@ void frame3_Callback(const geometry_msgs::TransformStampedConstPtr& framePtr)
   }
 }
 
+void parallelPark(void){
+
+}
+
 //************************************************************
 // Main function
 int main(int argc, char **argv){
@@ -56,7 +61,7 @@ int main(int argc, char **argv){
 
 	// Create a publisher object to publish to the /manual_drive topic to
 	// control the servo
-	ros::Publisher pub = nh.advertise<parallel_park::ServoCtrlMsg>("/manual_drive", 100);
+	ros::Publisher pub = nh.advertise<parallel_park::ServoCtrlMsg>("/manual_drive", 10);
 
 	// Create buffer objects and transformListener objects to deal with
 	// getting the transforms
@@ -106,9 +111,11 @@ int main(int argc, char **argv){
 		// float x1trans= (transformStamped1.transform.translation.x)*1000;
 		// float y1trans = (transformStamped1.transform.translation.y)*1000;
 		// float z1trans = (transformStamped1.transform.translation.z)*1000;
+		// long tfSecs1 = transformStamped1.header.stamp.sec;
 		// float x2trans = (transformStamped2.transform.translation.x)*1000;
 		// float y2trans = (transformStamped2.transform.translation.y)*1000;
 		// float z2trans = (transformStamped2.transform.translation.z)*1000;
+		// long tfSecs2 = transformStamped2.header.stamp.sec;
 		float x3trans = (float)(transformStamped3.transform.translation.x)*(float)1000;
 		float y3trans = (float)(transformStamped3.transform.translation.y)*(float)1000;
 		float z3trans = (float)(transformStamped3.transform.translation.z)*(float)1000;
@@ -174,7 +181,7 @@ int main(int argc, char **argv){
 			}
 
  		} // end while
-}
+} // end main
 		/*
 		  Algorithm to Park the car from beside tag 1 ((Taken from Ballinas et al.))
 		    Givens: Steering angle:0.9 = 30 deg = pi/6,
