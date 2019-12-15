@@ -72,9 +72,10 @@ int main(int argc, char **argv){
 	tf2_ros::TransformListener tfListener2(tfBuffer2);
   tf2_ros::TransformListener tfListener3(tfBuffer3);
 
-	// Set the sleep rate to 2s
-	ros::Rate rate(2.0);
-	long prevSecs3 = 0; // This is how I make sure it's a new transform each time
+	 // Make sure each transform is a new one each time
+	long prevSecs1 = 0;
+	long prevSecs2 = 0;
+	long prevSecs3 = 0;
 
 	// Perform the following as long as the node is running
 	while(ros::ok()){
@@ -84,20 +85,18 @@ int main(int argc, char **argv){
 		geometry_msgs::TransformStamped transformStamped3;
 
 		// Try to get each transform, and warn if doesn't work each time
-		// try{
-		// 	transformStamped1 = tfBuffer1.lookupTransform("cv_camera", "tag_1", ros::Time(0));
-		// 	transformStamped2 = tfBuffer2.lookupTransform("cv_camera", "tag_2", ros::Time(0));
-		// 	//transformStamped3 = tfBuffer3.lookupTransform("cv_camera", "tag_3", ros::Time(0));
-		// }
-		// catch(tf2::TransformException &ex){
-		// 	ROS_WARN("%s", ex.what());
-		// 	ros::Duration(1.0).sleep();
-		// 	continue;
-		// }
+		try{
+			transformStamped1 = tfBuffer1.lookupTransform("cv_camera", "tag_1", ros::Time(0));
+			transformStamped2 = tfBuffer2.lookupTransform("cv_camera", "tag_2", ros::Time(0));
+		}
+		catch(tf2::TransformException &ex){
+			ROS_WARN("%s", ex.what());
+			ros::Duration(1.0).sleep();
+			// continue;
+		}
 		int tag3Ready = 1;
 		try{
 			transformStamped3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
-			tag3Ready = 1;
 		}
 		catch(tf2::TransformException &ex){
 			ROS_INFO_STREAM("tag_3 not ready");
@@ -108,14 +107,14 @@ int main(int argc, char **argv){
 		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
 
 		// Holders for each of the tags' frame translations
-		// float x1trans= (transformStamped1.transform.translation.x)*1000;
-		// float y1trans = (transformStamped1.transform.translation.y)*1000;
-		// float z1trans = (transformStamped1.transform.translation.z)*1000;
-		// long tfSecs1 = transformStamped1.header.stamp.sec;
-		// float x2trans = (transformStamped2.transform.translation.x)*1000;
-		// float y2trans = (transformStamped2.transform.translation.y)*1000;
-		// float z2trans = (transformStamped2.transform.translation.z)*1000;
-		// long tfSecs2 = transformStamped2.header.stamp.sec;
+		float x1trans= (transformStamped1.transform.translation.x)*1000;
+		float y1trans = (transformStamped1.transform.translation.y)*1000;
+		float z1trans = (transformStamped1.transform.translation.z)*1000;
+		long tfSecs1 = transformStamped1.header.stamp.sec;
+		float x2trans = (transformStamped2.transform.translation.x)*1000;
+		float y2trans = (transformStamped2.transform.translation.y)*1000;
+		float z2trans = (transformStamped2.transform.translation.z)*1000;
+		long tfSecs2 = transformStamped2.header.stamp.sec;
 		float x3trans = (float)(transformStamped3.transform.translation.x)*(float)1000;
 		float y3trans = (float)(transformStamped3.transform.translation.y)*(float)1000;
 		float z3trans = (float)(transformStamped3.transform.translation.z)*(float)1000;
@@ -128,39 +127,39 @@ int main(int argc, char **argv){
 		// Create the single Servo Control Message that will be published
 		parallel_park::ServoCtrlMsg control;
 
-		// float xDistance = computeDistance(x1trans,y1trans,z1trans,x2trans,y2trans,z2trans);
-		// float prevDistance = 0;
-		//
-		// // ROS_INFO_STREAM("Distance between tag 1 and tag 2: " << xDistance);
-		// // If xDistance > 60cm, continue on to the next part
-		// if(xDistance > 40){
-			// control.angle = (float) (0.9);
-			// control.throttle = (float) (0.65);
-			// pub.publish(control);
-			ros::Duration(2.0).sleep();
+		// Compute the distance between the two tags and print it out for confirmation
+		float xDistance = computeDistance(x1trans,y1trans,z1trans,x2trans,y2trans,z2trans);
+		float prevDistance = 0;
+		ROS_INFO_STREAM("Distance between tag 1 and tag 2: " << xDistance);
 
+		// Wait 2 seconds to let things settle. This seemed to solve for the servo
+		// responding irregularly
+		ros::Duration(2.0).sleep();
+
+		// If xDistance > 60cm, continue on to the next part
+		if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
 			// Go from looking at T1 and T2 to being adjacent to T1
 			control.angle = (float) (0.9);
 			control.throttle = (float) (0.5);
 			pub.publish(control);
-			ROS_INFO_STREAM("Let us begin");
+			ROS_INFO_STREAM("Heading to tag 1 adjacent");
 			ros::Duration(2.5).sleep();
 
 			control.angle = (float) (0);
 			control.throttle = (float) (-0.5);
 			pub.publish(control);
-			ROS_INFO_STREAM("Let us begin");
+			ROS_INFO_STREAM("Correcting");
 			ros::Duration(0.2).sleep();
 
 			control.angle = (float) (0.0);
 			control.throttle = (float) (0.0);
 			pub.publish(control);
-			ROS_INFO_STREAM("We here");
+			ROS_INFO_STREAM("Arrived");
 
 			// Find out if tag 3 ready
-			// if(tag3Ready){
+			// if(tag3Ready && (prevSecs3 != tfSecs3)){
 			// 	// Test if tag 3 is within an acceptable range indicating we can park
-			// 	if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56) && (prevSecs3 != tfSecs3)){
+			// 	if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56)){
 			// 		ROS_INFO_STREAM("Starting to park");
 			//
 			// 		control.angle = (float) (-0.9);
@@ -197,42 +196,6 @@ int main(int argc, char **argv){
 			// 		prevSecs3 = tfSecs3;
 			// 	}
 			// }
-
- 		} // end while
+		}
+ 	} // end while
 } // end main
-		/*
-		  Algorithm to Park the car from beside tag 1 ((Taken from Ballinas et al.))
-		    Givens: Steering angle:0.9 = 30 deg = pi/6,
-		            wheelbase, L: 0.162m,
-		            robot width, W: 0.193m,
-		            rear axle to rear bumper, p: 0.035m,
-		            initial points, (Xs, Ys), and
-		            minimum distances (xmin,ymin)
-		    Output: Whole path P
-		    void pathPlanner(float angle, float L, float W, float p, float Xs, float Ys
-		                    float xmin, float ymin)
-		    {
-		    // Calculate distance R
-		    float R = L/(tan(angle));
-
-		    // Find intersection point Yt
-		    float Yt = R-(ymin+(W/2));
-
-		    // Calculate aperture angle alpha
-		    float alpha = angle; // Will test this, but I believe the turn angle is equal
-
-		    // Calculate intersection point Xt
-		    float Xt = R*cos(alpha);
-
-		    // Calculate the minimum parking spot distance
-		    Mmin = (2*Xt)+p-xmin;
-
-		    // Calculate the goal position
-		    float Xg = (Mmin/2) + xmin + (L/2) + p;
-		    float Yg = R-(W+ymin);
-		    float Yf = Yg;
-		    float Xf = Mmin-p;
-		    float P = (Xs,Ys)(Xt,Yt)+(Xt,Yt)(Xf,Yf)+(Xf,Yf)(Xg,Yg)
-
-		  }
-*/
