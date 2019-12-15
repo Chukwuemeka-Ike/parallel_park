@@ -134,7 +134,7 @@ int main(int argc, char **argv){
 
 		// Wait 2 seconds to let things settle. This seemed to solve for the servo
 		// responding irregularly
-		ros::Duration(2.0).sleep();
+		ros::Duration(1.0).sleep();
 
 		// If xDistance > 60cm, continue on to the next part
 		// if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
@@ -145,11 +145,11 @@ int main(int argc, char **argv){
 			ROS_INFO_STREAM("Heading to tag 1 adjacent");
 			ros::Duration(1.75).sleep();
 
-			control.angle = (float) (-0.1);
-			control.throttle = (float) (-0.65);
+			control.angle = (float) (-0.2);
+			control.throttle = (float) (-0.8);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correcting");
-			ros::Duration(0.9).sleep();
+			ros::Duration(1.3).sleep();
 
 			control.angle = (float) (0.0);
 			control.throttle = (float) (0.0);
