@@ -144,7 +144,7 @@ int main(int argc, char **argv){
 			control.throttle = (float) (0.5);
 			pub.publish(control);
 			ROS_INFO_STREAM("Let us begin");
-			ros::Duration(2).sleep();
+			ros::Duration(2.5).sleep();
 
 			control.angle = (float) (0);
 			control.throttle = (float) (-0.5);
