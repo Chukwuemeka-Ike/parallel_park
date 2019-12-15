@@ -69,7 +69,7 @@ int main(int argc, char **argv){
 
 	// Set the sleep rate to 2s
 	ros::Rate rate(2.0);
-	long prevSecs3 = 0;
+	long prevSecs3 = 0; // This is how I make sure it's a new transform each time
 
 	// Perform the following as long as the node is running
 	while(ros::ok()){
@@ -139,22 +139,22 @@ int main(int argc, char **argv){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
-					control.throttle = (float) (-0.68);
+					control.throttle = (float) (-0.65);
 					pub.publish(control);
 					ROS_INFO_STREAM("Right turn");
-					ros::Duration(1.1).sleep();
+					ros::Duration(0.95).sleep();
 
 					control.angle = (float) (0.9);
-					control.throttle = (float) (-0.68);
+					control.throttle = (float) (-0.65);
 					pub.publish(control);
 					ROS_INFO_STREAM("Left turn");
-					ros::Duration(0.6).sleep();
+					ros::Duration(0.5).sleep();
 
 					control.angle = (float) (-0.9);
-					control.throttle = (float) (0.68);
+					control.throttle = (float) (0.65);
 					pub.publish(control);
 					ROS_INFO_STREAM("Correct");
-					ros::Duration(0.5).sleep();
+					ros::Duration(0.45).sleep();
 
 					control.angle = (float) (0);
 					control.throttle = (float) (0);
@@ -163,36 +163,18 @@ int main(int argc, char **argv){
 
 					prevSecs3 = tfSecs3;
 				}
+				else{
+					control.angle = (float) (0);
+					control.throttle = (float) (0);
+					ROS_INFO_STREAM("Rest");
+					pub.publish(control);
+
+					prevSecs3 = tfSecs3;
+				}
 			}
-			// prevDistance = xDistance;
-		// }
 
-
-      /*
-
-      ROS_INFO_STREAM("tag3Ready 2nd time:" << tag3Ready);
-      ROS_INFO_STREAM("z3trans:" << z3trans);
-      if(tag3Ready == 1 && z3trans > 30)
-      {
-         ROS_INFO_STREAM("Here We Go");
-         control.throttle = (float) (0.65);
-         control.angle = (float) (0);
-      }
-      else{
-        ROS_INFO_STREAM("No \t No \t No");
-        control.throttle = (float) (0.0);
-        control.angle = (float) (0);
-      }*/
-/*
-    }
-    else{
-      canPark = false;
-    }/*
-
-		pub.publish(control);
-	rate.sleep();
+ 		} // end while
 }
-
 		/*
 		  Algorithm to Park the car from beside tag 1 ((Taken from Ballinas et al.))
 		    Givens: Steering angle:0.9 = 30 deg = pi/6,
@@ -229,5 +211,3 @@ int main(int argc, char **argv){
 
 		  }
 */
- 	}
-}
