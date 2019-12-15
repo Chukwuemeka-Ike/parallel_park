@@ -163,13 +163,13 @@ int main(int argc, char **argv){
 					ROS_INFO_STREAM("Starting to park");
 
 					control.angle = (float) (-0.9);
-					control.throttle = (float) (-0.8);
+					control.throttle = (float) (-0.65);
 					pub.publish(control);
 					ROS_INFO_STREAM("Right turn");
 					ros::Duration(1.4).sleep();
 
 					control.angle = (float) (0.9);
-					control.throttle = (float) (-0.8);
+					control.throttle = (float) (-0.65);
 					pub.publish(control);
 					ROS_INFO_STREAM("Left turn");
 					ros::Duration(0.85).sleep();
