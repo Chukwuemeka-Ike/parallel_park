@@ -149,7 +149,7 @@ int main(int argc, char **argv){
 			control.throttle = (float) (-0.8);
 			pub.publish(control);
 			ROS_INFO_STREAM("Correcting");
-			ros::Duration(0.5).sleep();
+			ros::Duration(1.1).sleep();
 
 			control.angle = (float) (0.0);
 			control.throttle = (float) (0.0);
