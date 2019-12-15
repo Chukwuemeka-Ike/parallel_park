@@ -103,7 +103,7 @@ int main(int argc, char **argv){
 			ROS_INFO_STREAM("tag_3 not ready");
 			ros::Duration(1.0).sleep();
 			tag3Ready = 0;
-			continue;
+			//continue;
 		}
 		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
 
