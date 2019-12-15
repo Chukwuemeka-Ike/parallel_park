@@ -139,46 +139,58 @@ int main(int argc, char **argv){
 			// pub.publish(control);
 			ros::Duration(2.0).sleep();
 
+			// Go from looking at T1 and T2 to being adjacent to T1
+			control.angle = (float) (0.9);
+			control.throttle = (float) (0.8);
+			pub.publish(control);
+			ROS_INFO_STREAM("Let us begin");
+			ros::Duration(2).sleep();
+
+			control.angle = (float) (0.0);
+			control.throttle = (float) (-0.0);
+			pub.publish(control);
+			ROS_INFO_STREAM("We here");
+
 			// Find out if tag 3 ready
-			if(tag3Ready){
-				// Test if tag 3 is within an acceptable range indicating we can park
-				if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56) && (prevSecs3 != tfSecs3)){
-					ROS_INFO_STREAM("Starting to park");
-
-					control.angle = (float) (-0.9);
-					control.throttle = (float) (-0.8);
-					pub.publish(control);
-					ROS_INFO_STREAM("Right turn");
-					ros::Duration(1.4).sleep();
-
-					control.angle = (float) (0.9);
-					control.throttle = (float) (-0.8);
-					pub.publish(control);
-					ROS_INFO_STREAM("Left turn");
-					ros::Duration(0.85).sleep();
-
-					control.angle = (float) (-0.9);
-					control.throttle = (float) (0.65);
-					pub.publish(control);
-					ROS_INFO_STREAM("Correct");
-					ros::Duration(0.45).sleep();
-
-					control.angle = (float) (0);
-					control.throttle = (float) (0);
-					ROS_INFO_STREAM("Rest");
-					pub.publish(control);
-
-					prevSecs3 = tfSecs3;
-				}
-				else{
-					control.angle = (float) (0);
-					control.throttle = (float) (0);
-					ROS_INFO_STREAM("Rest");
-					pub.publish(control);
-
-					prevSecs3 = tfSecs3;
-				}
-			}
+			// if(tag3Ready){
+			// 	// Test if tag 3 is within an acceptable range indicating we can park
+			// 	if((x3trans<46 && x3trans>33) && (z3trans<70 && z3trans>56) && (prevSecs3 != tfSecs3)){
+			// 		ROS_INFO_STREAM("Starting to park");
+			//
+			// 		control.angle = (float) (-0.9);
+			// 		control.throttle = (float) (-0.8);
+			// 		pub.publish(control);
+			// 		ROS_INFO_STREAM("Right turn");
+			// 		ros::Duration(1.4).sleep();
+			//
+			// 		control.angle = (float) (0.9);
+			// 		control.throttle = (float) (-0.8);
+			// 		pub.publish(control);
+			// 		ROS_INFO_STREAM("Left turn");
+			// 		ros::Duration(0.85).sleep();
+			//
+			// 		control.angle = (float) (-0.9);
+			// 		control.throttle = (float) (0.65);
+			// 		pub.publish(control);
+			// 		ROS_INFO_STREAM("Correct");
+			// 		ros::Duration(0.45).sleep();
+			//
+			// 		control.angle = (float) (0);
+			// 		control.throttle = (float) (0);
+			// 		ROS_INFO_STREAM("Rest");
+			// 		pub.publish(control);
+			//
+			// 		prevSecs3 = tfSecs3;
+			// 	}
+			// 	else{
+			// 		control.angle = (float) (0);
+			// 		control.throttle = (float) (0);
+			// 		ROS_INFO_STREAM("Rest");
+			// 		pub.publish(control);
+			//
+			// 		prevSecs3 = tfSecs3;
+			// 	}
+			// }
 
  		} // end while
 } // end main
