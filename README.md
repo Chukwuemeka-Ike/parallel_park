@@ -7,12 +7,14 @@ Collaborators: John Parent and Chukwuemeka Ike
 --------------------------------------------------------------------------------
 
 ------------------------ cv_camera and image_proc ------------------------------
+
 In order to standardize the image stream from the camera, the cv_camera and
 image_proc standard packages were installed from the standard ROS repository.
 The following depends on the proper setup and calibration of the camera.
 
 
 ------------------------------ AprilTags ---------------------------------------
+
 The functionality of the parallel parking node is highly dependent on the
 AprilTag ROS package available at:
 
@@ -33,6 +35,7 @@ Once AprilTags is setup as instructed, the user has to source the workspace
 every time it will be used.
 
 ------------------------------- parallel_park ----------------------------------
+
 With apriltag's continuous node running in the background, the user simply needs
 to build the parallel_park package using: "catkin_make" from the workspace
 containing it. This will build the package and allow the user run:
