@@ -1,16 +1,12 @@
-// The following is a program  written to  estimate the pose of the DeepRacer
-// relative to a given target.
+// DeepRacer Autonomous 
 
+// The following is a node  written to facilitate the DeepRacer's parallel parking
 #include <ros/ros.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_ros/message_filter.h>
 #include <message_filters/subscriber.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <parallel_park/ServoCtrlMsg.h> // To replace the ServoCtrlMsg from DeepRacer's ctrl_pkg
-//#include <cmath.h>
-
-bool canPark;
-
 
 //************************************************************
 // Function to Compute the Distance Between Two Frames (Essentially 2 Tags)
@@ -23,28 +19,6 @@ float computeDistance(float xFirst, float yFirst, float zFirst, float xSecond, f
 	ROS_INFO_STREAM("\n\rxDistance: " << xDistance);
 
 	return xDistance;
-}
-
-//************************************************************
-// Callback function to register with tf2_ros::MessageFilter to be called when frame 3 is available
-void frame3_Callback(const geometry_msgs::TransformStampedConstPtr& framePtr)
-{
-  int f;
-  geometry_msgs::TransformStamped transform3;
-  tf2_ros::Buffer tfBuffer3;
-  tf2_ros::TransformListener tfListener3(tfBuffer3);
-
-  try{
-    transform3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
-  }
-  catch(tf2::TransformException &ex){
-    ROS_WARN("%s", ex.what());
-    ros::Duration(1.0).sleep();
-  }
-}
-
-void parallelPark(void){
-
 }
 
 //************************************************************
@@ -94,6 +68,8 @@ int main(int argc, char **argv){
 			ros::Duration(1.0).sleep();
 			// continue;
 		}
+		// Transform 3 is looked for separately, and tag3Ready is used to indicate
+		// the presence of a new tag 3 transform
 		int tag3Ready = 1;
 		try{
 			transformStamped3 = tfBuffer3.lookupTransform("tag_3", "cv_camera", ros::Time(0));
@@ -104,7 +80,6 @@ int main(int argc, char **argv){
 			tag3Ready = 0;
 			//continue;
 		}
-		ROS_INFO_STREAM("tag3Ready:" << tag3Ready);
 
 		// Holders for each of the tags' frame translations
 		float x1trans= (transformStamped1.transform.translation.x)*100;
@@ -137,24 +112,24 @@ int main(int argc, char **argv){
 		ros::Duration(1.5).sleep();
 
 		// If xDistance > 60cm, continue on to the next part
-		// if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
-			// Go from looking at T1 and T2 to being adjacent to T1
-			// control.angle = (float) (0.9);
-			// control.throttle = (float) (0.65);
-			// pub.publish(control);
-			// ROS_INFO_STREAM("Heading to tag 1 adjacent");
-			// ros::Duration(1.65).sleep();
-			//
-			// control.angle = (float) (-0.2);
-			// control.throttle = (float) (-0.8);
-			// pub.publish(control);
-			// ROS_INFO_STREAM("Correcting");
-			// ros::Duration(1.7).sleep();
-			//
-			// control.angle = (float) (0.0);
-			// control.throttle = (float) (0.0);
-			// pub.publish(control);
-			// ROS_INFO_STREAM("Arrived");
+		if((prevSecs1 != tfSecs1) && (prevSecs2 != tfSecs2) && (xDistance > 60)){
+			Go from looking at T1 and T2 to being adjacent to T1
+			control.angle = (float) (0.9);
+			control.throttle = (float) (0.65);
+			pub.publish(control);
+			ROS_INFO_STREAM("Heading to tag 1 adjacent");
+			ros::Duration(1.65).sleep();
+
+			control.angle = (float) (-0.2);
+			control.throttle = (float) (-0.8);
+			pub.publish(control);
+			ROS_INFO_STREAM("Correcting");
+			ros::Duration(1.7).sleep();
+
+			control.angle = (float) (0.0);
+			control.throttle = (float) (0.0);
+			pub.publish(control);
+			ROS_INFO_STREAM("Arrived");
 
 			// Find out if tag 3 ready
 			if(tag3Ready && (prevSecs3 != tfSecs3)){
@@ -208,8 +183,8 @@ int main(int argc, char **argv){
 					prevSecs3 = tfSecs3;
 				}
 			} // end tag3 if
-		// 	prevSecs1 = tfSecs1;
-		// 	prevSecs2 = tfSecs2;
-		// }
+			prevSecs1 = tfSecs1;
+			prevSecs2 = tfSecs2;
+		}
  	} // end while
 } // end main
