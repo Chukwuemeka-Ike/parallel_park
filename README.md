@@ -1,19 +1,20 @@
+# Autonomous DeepRacer Project for Robotics 1
 This is an explanation of the dependencies of the parallel_park node used in
 the Autonomous DeepRacer Project.
 
-Collaborators: John Parent and Chukwuemeka Ike
+### Collaborators: John Parent and Chukwuemeka Ike
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
------------------------- cv_camera and image_proc ------------------------------
+## cv_camera and image_proc
 
 In order to standardize the image stream from the camera, the cv_camera and
 image_proc standard packages were installed from the standard ROS repository.
 The following depends on the proper setup and calibration of the camera.
 
 
------------------------------- AprilTags ---------------------------------------
+## AprilTags 
 
 The functionality of the parallel parking node is highly dependent on the
 AprilTag ROS package available at:
@@ -34,7 +35,7 @@ in the 'Txt Files' folder included with this submission.
 Once AprilTags is setup as instructed, the user has to source the workspace
 every time it will be used.
 
-------------------------------- parallel_park ----------------------------------
+## parallel_park 
 
 With apriltag's continuous node running in the background, the user simply needs
 to build the parallel_park package using: "catkin_make" from the workspace
